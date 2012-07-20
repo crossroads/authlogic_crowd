@@ -2,7 +2,7 @@ Authlogic Crowd
 ===============
 
 Authlogic Crowd is an extension of the Authlogic library to add Atlassian Crowd
-support.  We have only tested this plugin with Authlogic 2.x and Rails 2.x.
+support.  We have only tested this plugin with Authlogic 3.x and Rails 3.2.
 
 
 ## Installation

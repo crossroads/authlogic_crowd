@@ -117,8 +117,8 @@ module AuthlogicCrowd
         if has_crowd_credentials?
           # HACK: Remove previous login/password errors since we are going to
           # try to validate them with crowd
-          errors.instance_variable_get('@errors').delete(login_field.to_s)
-          errors.instance_variable_get('@errors').delete(password_field.to_s)
+          errors.delete(login_field.to_sym)
+          errors.delete(password_field.to_sym)
 
           if valid_crowd_credentials?
             self.attempted_record = find_or_create_record_from_crowd
@@ -186,6 +186,7 @@ module AuthlogicCrowd
 
           # Authenticate using login/password
           user_token = crowd_fetch {crowd_client.authenticate_user(login, password)}
+
           if user_token
             @valid_crowd_user[:user_token] = user_token
             @valid_crowd_user[:username] = login
@@ -252,7 +253,7 @@ module AuthlogicCrowd
       def save_crowd_cookie
         if @valid_crowd_user[:user_token] && @valid_crowd_user[:user_token] != crowd_user_token
           controller.params.delete("crowd.token_key")
-          controller.cookies[:"crowd.token_key"] = {
+          controller.cookies["crowd.token_key"] = {
             :domain => crowd_cookie_info[:domain],
             :secure => crowd_cookie_info[:secure],
             :value => @valid_crowd_user[:user_token],
@@ -261,7 +262,7 @@ module AuthlogicCrowd
       end
 
       def destroy_crowd_cookie
-        controller.cookies.delete(:"crowd.token_key", :domain => crowd_cookie_info[:domain])
+        controller.cookies.delete("crowd.token_key", :domain => crowd_cookie_info[:domain])
       end
 
       # When the crowd_auth_every config option is set and the user is logged
@@ -269,6 +270,7 @@ module AuthlogicCrowd
       # matches last token_key and last authorization was less than
       # crowd_auth_every seconds).
       def needs_crowd_validation?
+
         res = true
         if !has_crowd_credentials? && authenticated_by_crowd? && self.class.crowd_auth_every.to_i > 0
           last_user_token = controller.session[:"crowd.last_user_token"]
@@ -324,7 +326,7 @@ module AuthlogicCrowd
       end
 
       def crowd_user_token
-        controller && (controller.params["crowd.token_key"] || controller.cookies[:"crowd.token_key"])
+        controller && (controller.params["crowd.token_key"] || controller.cookies["crowd.token_key"])
       end
 
       def authenticated_by_crowd?

@@ -5,7 +5,7 @@ require 'authlogic_crowd/version'
 Gem::Specification.new do |s|
   s.name        = %q{authlogic_crowd}
   s.version     = AuthlogicCrowd::VERSION.dup
-  s.authors     = ["Paul Strong"]
+  s.authors     = ["Paul Strong", "Steve Kenworthy"]
   s.email       = %q{paul@thestrongfamily.org}
   s.homepage    = %q{http://github.com/thinkwell/authlogic_crowd}
   s.summary     = %q{Atlassian Crowd support for Authlogic}
@@ -18,10 +18,9 @@ Gem::Specification.new do |s|
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
 
-  s.add_runtime_dependency(%q<authlogic>, [">= 2.1.3", "< 3.0.0"])
+  s.add_runtime_dependency(%q<authlogic>, ["> 3.0.0"])
   s.add_runtime_dependency(%q<simple_crowd>, [">= 1.1.0"])
 
   s.add_development_dependency(%q<bundler>, [">= 1.0.21"])
   s.add_development_dependency(%q<rake>, [">= 0"])
 end
-
